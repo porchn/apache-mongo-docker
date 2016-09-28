@@ -1,0 +1,29 @@
+version: "2"
+services:
+ web:
+  image: porchn/apache-mongo-mysql:0.1.0
+  container_name: apache2
+  volumes:
+   - ./config:/etc/apache2/sites-enabled
+   - ./www:/var/www
+   - ./logs:/var/log/apache2
+  ports:
+   - 80:80
+   - 443:443
+  networks:
+   - default
+  external_links:
+   - mysql:mysql
+ pma:
+  image: phpmyadmin/phpmyadmin
+  container_name: phpmyadmin
+  networks:
+   - default
+  external_links:
+   - mysql:db
+  ports:
+   - 8080:80
+networks:
+ default:
+  external:
+   name: mysqldata_mynetwork
